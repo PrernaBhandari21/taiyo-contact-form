@@ -4,8 +4,8 @@ const Contact = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [editIndex, setEditIndex] = useState(-1); // Index of the contact being edited
   const [dummyDataArray, setDummyDataArray] = useState([
-    { name: 'John', lastName: 'Doe', status: 'active' },
-    { name: 'Jane', lastName: 'Smith', status: 'inactive' },
+    { name: 'Prerna', lastName: 'Bhandari', status: 'active' },
+    { name: 'You are', lastName: 'Welcome :)', status: 'inactive' },
   ]);
 
   const [formData, setFormData] = useState({
