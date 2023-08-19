@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 
 const Contact = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [editIndex, setEditIndex] = useState(-1); // Index of the contact being edited
+  const [isViewOnly, setIsViewOnly] = useState(false);
+  const [editIndex, setEditIndex] = useState(-1); 
   const [dummyDataArray, setDummyDataArray] = useState([
     { name: 'Prerna', lastName: 'Bhandari', status: 'active' },
     { name: 'You are', lastName: 'Welcome :)', status: 'inactive' },
@@ -14,15 +15,16 @@ const Contact = () => {
     status: ''
   });
 
-  const handleToggleForm = (index) => {
+  const handleToggleForm = (index, viewOnly = false) => {
     setIsFormVisible(!isFormVisible);
-    setEditIndex(index); // Set the index of the contact being edited
+    setEditIndex(index);
+    setIsViewOnly(viewOnly);
     if (index !== -1) {
       const contact = dummyDataArray[index];
       setFormData({
         name: contact.name,
         lastName: contact.lastName,
-        status: contact.status
+        status: contact.status,
       });
     }
   };
@@ -73,21 +75,22 @@ const Contact = () => {
         <div className="flex justify-center items-center">
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded-md m-4"
-            onClick={() => handleToggleForm(-1)} // -1 indicates creating a new contact
+            onClick={() => handleToggleForm(-1)} 
           >
             Create Contact
           </button>
         </div>
       ) : (
         <div className="mt-4 flex justify-center">
-          <form onSubmit={handleSubmit} id="form" className="border p-4 m-4 border-gray-600 w-1/2">
+          <form onSubmit={handleSubmit} id="form" className="border p-4 m-4 border-gray-600 w-1/2"  >
           <label className="block">First Name:</label>
           <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="border p-1 w-full"
+              className="border p-1 w-full border-gray-700" disabled={isViewOnly} 
+              
             />
 
           <label className="block mt-2">Last Name:</label>
@@ -96,7 +99,7 @@ const Contact = () => {
               name="lastName"
               value={formData.lastName}
               onChange={handleChange}
-              className="border p-1 w-full"
+              className="border p-1 w-full border-gray-700" disabled={isViewOnly} 
             />
 
 
@@ -107,7 +110,8 @@ const Contact = () => {
                 name="status"
                 value="active"
                 checked={formData.status === 'active'}
-                onChange={handleChange}
+                onChange={handleChange} disabled={isViewOnly} 
+               
               />
               Active
             </label>
@@ -117,7 +121,7 @@ const Contact = () => {
                 name="status"
                 value="inactive"
                 checked={formData.status === 'inactive'}
-                onChange={handleChange}
+                onChange={handleChange} disabled={isViewOnly} 
               />
               Inactive
             </label>
@@ -126,12 +130,12 @@ const Contact = () => {
 
 
 
-            <button
+           {!isViewOnly && <button
               type="submit"
               className="bg-blue-500 text-white px-4 py-2 rounded-md mt-4"
             >
               {editIndex !== -1 ? 'Save Edited Data' : 'Save Contact'}
-            </button>
+            </button>} 
           </form>
         </div>
       )}
@@ -145,15 +149,25 @@ const Contact = () => {
             <div className="border p-4 border-gray-600 w-full bg-gray-100">
               <h3>Contact {index + 1}</h3>
               <p><strong>Name:</strong> {contact.name} {contact.lastName}</p>
+
+          <button
+                className="bg-blue-500 text-white px-4 py-2 rounded-md m-4"
+                onClick={() => handleToggleForm(index, true)} // View contact details
+              >
+                View Contact Details
+              </button>
+
+          <br />
+
               <button
                 className="bg-green-600 text-white px-4 py-2 rounded-md m-4"
-                onClick={() => handleToggleForm(index)} // Start editing this contact
+                onClick={() => handleToggleForm(index)}
               >
                 Edit
               </button>
               <button
                 className="bg-red-600 text-white px-4 py-2 rounded-md m-4"
-                onClick={() => deleteFormData(contact)} // Start editing this contact
+                onClick={() => deleteFormData(contact)} 
               >
                 Delete
               </button>
