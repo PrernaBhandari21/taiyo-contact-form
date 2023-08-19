@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+
+.grid {
+  display: grid;
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr; 
+  }
+}
